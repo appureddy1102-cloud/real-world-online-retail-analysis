@@ -1,0 +1,66 @@
+DATA SOURCE AND VERIFICATION RECORD
+====================================
+
+Dataset name      : Online Retail
+Publisher         : UCI Machine Learning Repository, University of California, Irvine
+Official page     : https://archive.ics.uci.edu/dataset/352/online+retail
+Dataset DOI       : https://doi.org/10.24432/C5BW33
+Licence           : Creative Commons Attribution 4.0 International (CC BY 4.0)
+Download date     : 6 November 2026
+File              : Online Retail.xlsx (single worksheet "Online Retail")
+File size         : 23.72 MB (23,720,000 bytes approximately)
+SHA-256           : 43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d
+Rows x columns    : 541,909 x 8
+Period            : 1 December 2010 08:26 to 9 December 2011 12:50
+Variables         : InvoiceNo, StockCode, Description, Quantity, InvoiceDate,
+                    UnitPrice, CustomerID, Country
+
+HOW TO REPRODUCE THE DOWNLOAD
+-----------------------------
+
+    mkdir -p data && cd data
+    curl -L -o online+retail.zip "https://archive.ics.uci.edu/static/public/352/online+retail.zip"
+    unzip online+retail.zip
+
+The extracted file must be named exactly "Online Retail.xlsx" and placed in the data/
+directory. The notebook locates it automatically.
+
+VERIFY THE FILE BEFORE ANALYSIS
+-------------------------------
+
+    sha256sum "Online Retail.xlsx"
+
+Expected output:
+    43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d  Online Retail.xlsx
+
+If the fingerprint does not match, do not run the analysis: the file may be corrupted or
+modified. Download it again from the official URL above.
+
+WHY THE RAW FILE IS NOT COMMITTED
+---------------------------------
+
+The raw workbook is 23 MB. Committing it would bloat the repository and is unnecessary
+because the file is publicly available from the official source with a stable DOI.
+The SHA-256 fingerprint above allows any reader to verify that they are analysing the
+same file. All results in this repository were produced from the file with this exact
+fingerprint.
+
+ATTRIBUTION
+-----------
+
+    Chen, D., Sain, S. L., & Guo, K. (2012). Data mining for the online retail industry:
+    A case study of predictive modeling of customer behaviors. Journal of Business Research,
+    65(11), 1559-1566.
+
+    UCI Machine Learning Repository. (2015). Online Retail Dataset [Data set].
+    https://doi.org/10.24432/C5BW33
+
+Licensed under CC BY 4.0. You are free to share and adapt the data for any purpose,
+provided appropriate credit is given.
+
+SYNTHETIC DATA STATEMENT
+------------------------
+
+No synthetic records were added to this project. Every row analysed originates from the
+official UCI file listed above. Derived variables are deterministic functions of observed
+records.

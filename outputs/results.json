@@ -1,0 +1,1526 @@
+{
+  "raw_shape": [
+    541909,
+    8
+  ],
+  "raw_rows": 541909,
+  "raw_cols": 8,
+  "sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+  "file_size_mb": 23.72,
+  "memory_mb": 132.31,
+  "dtypes": {
+    "InvoiceNo": "object",
+    "StockCode": "object",
+    "Description": "object",
+    "Quantity": "int64",
+    "InvoiceDate": "datetime64[ns]",
+    "UnitPrice": "float64",
+    "CustomerID": "float64",
+    "Country": "object"
+  },
+  "missing": [
+    {
+      "column": "CustomerID",
+      "missing_count": 135080,
+      "missing_pct": 24.927
+    },
+    {
+      "column": "Description",
+      "missing_count": 1454,
+      "missing_pct": 0.268
+    },
+    {
+      "column": "StockCode",
+      "missing_count": 0,
+      "missing_pct": 0.0
+    },
+    {
+      "column": "InvoiceNo",
+      "missing_count": 0,
+      "missing_pct": 0.0
+    },
+    {
+      "column": "Quantity",
+      "missing_count": 0,
+      "missing_pct": 0.0
+    },
+    {
+      "column": "InvoiceDate",
+      "missing_count": 0,
+      "missing_pct": 0.0
+    },
+    {
+      "column": "UnitPrice",
+      "missing_count": 0,
+      "missing_pct": 0.0
+    },
+    {
+      "column": "Country",
+      "missing_count": 0,
+      "missing_pct": 0.0
+    }
+  ],
+  "duplicates": 5268,
+  "duplicate_pct": 0.972,
+  "date_min": "2010-12-01 08:26:00",
+  "date_max": "2011-12-09 12:50:00",
+  "n_days": 305,
+  "n_invoices": 25900,
+  "n_stockcodes": 4070,
+  "n_customers_raw": 4372,
+  "n_countries": 38,
+  "data_dictionary_rows": 8,
+  "cleaning_audit": [
+    {
+      "Data quality issue": "Exact duplicate records",
+      "Count in raw data": 5268,
+      "Treatment": "Removed",
+      "Records affected (working data)": 5268,
+      "Reason": "Identical copies; retaining them would double-count revenue and units."
+    },
+    {
+      "Data quality issue": "Missing product description",
+      "Count in raw data": 1454,
+      "Treatment": "Imputed with 'UNKNOWN'",
+      "Records affected (working data)": 1454,
+      "Reason": "Preserves the transaction line; the product name is unavailable in the source file."
+    },
+    {
+      "Data quality issue": "Cancellation invoices (InvoiceNo prefix 'C')",
+      "Count in raw data": 9288,
+      "Treatment": "Separated into cancellation dataset; excluded from valid sales",
+      "Records affected (working data)": 9251,
+      "Reason": "Credit notes are genuine returns, not revenue; they must be analysed separately."
+    },
+    {
+      "Data quality issue": "Negative quantity on non-cancellation invoices",
+      "Count in raw data": 1336,
+      "Treatment": "Separated into returns dataset; excluded from valid sales",
+      "Records affected (working data)": 1336,
+      "Reason": "Unpaid/returned goods; including them would understate sales."
+    },
+    {
+      "Data quality issue": "Zero or negative unit price",
+      "Count in raw data": 2517,
+      "Treatment": "Excluded from valid sales; retained in raw data",
+      "Records affected (working data)": 2512,
+      "Reason": "Zero-price lines carry no revenue; negative prices are data-entry errors."
+    },
+    {
+      "Data quality issue": "Non-product stock codes (postage, fees, samples)",
+      "Count in raw data": 2916,
+      "Treatment": "Flagged; retained in revenue totals, excluded from product rankings",
+      "Records affected (working data)": 2910,
+      "Reason": "These lines are real revenue but are not physical products; mixing them distorts product demand."
+    },
+    {
+      "Data quality issue": "Missing CustomerID",
+      "Count in raw data": 135080,
+      "Treatment": "Retained and flagged; excluded only from customer-level analysis",
+      "Records affected (working data)": 135037,
+      "Reason": "Dropping these rows would remove 25% of transactions and bias revenue/geography results."
+    },
+    {
+      "Data quality issue": "Invalid or missing invoice date",
+      "Count in raw data": 0,
+      "Treatment": "None required",
+      "Records affected (working data)": 0,
+      "Reason": "No invalid dates were found; the column parsed cleanly as datetime."
+    },
+    {
+      "Data quality issue": "Unusual quantity / price values (IQR rule)",
+      "Count in raw data": 37827,
+      "Treatment": "Retained and flagged; winsorised only in a sensitivity check",
+      "Records affected (working data)": 37827,
+      "Reason": "Inspection showed genuine wholesale purchases; automatic deletion would destroy real revenue."
+    }
+  ],
+  "dup_count": 5268,
+  "desc_missing": 1454,
+  "canc_rows": 9251,
+  "canc_invoices": 3836,
+  "returns_rows": 1336,
+  "price_bad": 2512,
+  "price_neg": 2,
+  "nonprod_rows": 2910,
+  "cust_missing": 135037,
+  "qty_outliers": 27111,
+  "price_outliers": 37827,
+  "qty_iqr_bounds": [
+    -14.0,
+    26.0
+  ],
+  "price_iqr_bounds": [
+    -3.0700000000000003,
+    8.45
+  ],
+  "cleaned_all_shape": [
+    536641,
+    12
+  ],
+  "valid_sales_shape": [
+    524878,
+    12
+  ],
+  "cancel_shape": [
+    9251,
+    12
+  ],
+  "return_shape": [
+    1336,
+    12
+  ],
+  "engineered_columns": [
+    "Revenue",
+    "Year",
+    "Month",
+    "MonthName",
+    "Quarter",
+    "DayOfWeek",
+    "Hour",
+    "Date",
+    "IsWeekend",
+    "InvoiceValue",
+    "ProductTotalQty"
+  ],
+  "valid_sales_rows": 524878,
+  "total_revenue": 10642110.8,
+  "total_units": 5572420,
+  "n_invoices_valid": 19960,
+  "n_customers_valid": 4338,
+  "reference_date": "2011-12-10",
+  "kpi": [
+    {
+      "KPI": "Total valid sales revenue (GBP)",
+      "Calculated result": "\u00a310,642,110.80",
+      "Definition / denominator": "Sum of Quantity \u00d7 UnitPrice on valid, non-cancelled, positive-price lines."
+    },
+    {
+      "KPI": "Total units sold",
+      "Calculated result": "5,572,420",
+      "Definition / denominator": "Sum of Quantity on valid sales lines."
+    },
+    {
+      "KPI": "Total valid invoices",
+      "Calculated result": "19,960",
+      "Definition / denominator": "Distinct InvoiceNo values in the valid sales dataset."
+    },
+    {
+      "KPI": "Unique purchasing customers",
+      "Calculated result": "4,338",
+      "Definition / denominator": "Distinct non-null CustomerID in valid sales."
+    },
+    {
+      "KPI": "Average order value (AOV, GBP)",
+      "Calculated result": "\u00a3533.17",
+      "Definition / denominator": "Total revenue \u00f7 19,960 valid invoices."
+    },
+    {
+      "KPI": "Repeat customer rate (%)",
+      "Calculated result": "65.58%",
+      "Definition / denominator": "2,845 customers with >1 invoice \u00f7 4,338 purchasing customers."
+    },
+    {
+      "KPI": "One-time customer share (%)",
+      "Calculated result": "34.42%",
+      "Definition / denominator": "1,493 customers with exactly 1 invoice \u00f7 4,338 purchasing customers."
+    },
+    {
+      "KPI": "Cancellation rate by invoice (%)",
+      "Calculated result": "16.12%",
+      "Definition / denominator": "3,836 cancellation invoices \u00f7 (3,836 cancellations + 19,960 valid invoices)."
+    },
+    {
+      "KPI": "Cancellation rate by line (%)",
+      "Calculated result": "1.73%",
+      "Definition / denominator": "9,251 cancellation lines \u00f7 (9,251 cancellation lines + 524,878 valid lines)."
+    },
+    {
+      "KPI": "Cancellation value (GBP, absolute)",
+      "Calculated result": "\u00a3893,979.73",
+      "Definition / denominator": "Sum of Quantity \u00d7 UnitPrice on cancellation lines (negative by construction)."
+    },
+    {
+      "KPI": "Top country revenue (GBP)",
+      "Calculated result": "\u00a39,001,744.09",
+      "Definition / denominator": "United Kingdom revenue \u00f7 total revenue = 84.59%."
+    },
+    {
+      "KPI": "Top customer revenue (GBP)",
+      "Calculated result": "\u00a3280,206.02",
+      "Definition / denominator": "Customer 14646 \u00f7 total revenue = 2.63%."
+    },
+    {
+      "KPI": "Peak month revenue (GBP)",
+      "Calculated result": "\u00a31,503,866.78",
+      "Definition / denominator": "Nov 2011 is the highest-revenue month."
+    },
+    {
+      "KPI": "Latest-month MoM growth (%)",
+      "Calculated result": "-57.59%",
+      "Definition / denominator": "Dec 2011 vs Nov 2011 (partial month)."
+    }
+  ],
+  "aov": 533.17,
+  "repeat_n": 2845,
+  "one_time_n": 1493,
+  "repeat_rate": 65.58,
+  "one_time_rate": 34.42,
+  "cancel_rate_inv": 16.12,
+  "cancel_rate_rows": 1.73,
+  "cancel_value": -893979.73,
+  "top_country": "United Kingdom",
+  "top_country_rev": 9001744.09,
+  "top_country_share": 84.59,
+  "top_customer_id": 14646,
+  "top_customer_rev": 280206.02,
+  "top_customer_share": 2.63,
+  "peak_month": "Nov 2011",
+  "peak_month_rev": 1503866.78,
+  "latest_month": "Dec 2011",
+  "latest_mom": -57.59,
+  "monthly": [
+    {
+      "MonthLabel": "Dec 2010",
+      "Revenue": 821452.73,
+      "Orders": 1559,
+      "Units": 358019,
+      "MoM_growth_pct": null
+    },
+    {
+      "MonthLabel": "Jan 2011",
+      "Revenue": 689811.61,
+      "Orders": 1086,
+      "Units": 387099,
+      "MoM_growth_pct": -16.03
+    },
+    {
+      "MonthLabel": "Feb 2011",
+      "Revenue": 522545.56,
+      "Orders": 1100,
+      "Units": 282934,
+      "MoM_growth_pct": -24.25
+    },
+    {
+      "MonthLabel": "Mar 2011",
+      "Revenue": 716215.26,
+      "Orders": 1454,
+      "Units": 376599,
+      "MoM_growth_pct": 37.06
+    },
+    {
+      "MonthLabel": "Apr 2011",
+      "Revenue": 536968.49,
+      "Orders": 1246,
+      "Units": 307953,
+      "MoM_growth_pct": -25.03
+    },
+    {
+      "MonthLabel": "May 2011",
+      "Revenue": 769296.61,
+      "Orders": 1681,
+      "Units": 395001,
+      "MoM_growth_pct": 43.27
+    },
+    {
+      "MonthLabel": "Jun 2011",
+      "Revenue": 760547.01,
+      "Orders": 1533,
+      "Units": 388511,
+      "MoM_growth_pct": -1.14
+    },
+    {
+      "MonthLabel": "Jul 2011",
+      "Revenue": 718076.12,
+      "Orders": 1475,
+      "Units": 399693,
+      "MoM_growth_pct": -5.58
+    },
+    {
+      "MonthLabel": "Aug 2011",
+      "Revenue": 757841.38,
+      "Orders": 1361,
+      "Units": 421020,
+      "MoM_growth_pct": 5.54
+    },
+    {
+      "MonthLabel": "Sep 2011",
+      "Revenue": 1056435.19,
+      "Orders": 1837,
+      "Units": 569573,
+      "MoM_growth_pct": 39.4
+    },
+    {
+      "MonthLabel": "Oct 2011",
+      "Revenue": 1151263.73,
+      "Orders": 2040,
+      "Units": 621029,
+      "MoM_growth_pct": 8.98
+    },
+    {
+      "MonthLabel": "Nov 2011",
+      "Revenue": 1503866.78,
+      "Orders": 2769,
+      "Units": 751377,
+      "MoM_growth_pct": 30.63
+    },
+    {
+      "MonthLabel": "Dec 2011",
+      "Revenue": 637790.33,
+      "Orders": 819,
+      "Units": 313612,
+      "MoM_growth_pct": -57.59
+    }
+  ],
+  "invoice_reconciliation": {
+    "total_invoices": 25900,
+    "valid_sales_invoices": 19960,
+    "cancellation_invoices": 3836,
+    "excluded_other_invoices": 2104
+  },
+  "univariate": [
+    {
+      "variable": "Quantity",
+      "count": 524878.0,
+      "mean": 10.617,
+      "std": 156.28,
+      "min": 1.0,
+      "5%": 1.0,
+      "25%": 1.0,
+      "50%": 4.0,
+      "75%": 11.0,
+      "95%": 30.0,
+      "99%": 100.0,
+      "max": 80995.0,
+      "IQR": 10.0,
+      "Variance": 24423.448,
+      "Skewness": 469.542,
+      "Kurtosis": 234228.704,
+      "Mode": 1.0
+    },
+    {
+      "variable": "UnitPrice",
+      "count": 524878.0,
+      "mean": 3.923,
+      "std": 36.093,
+      "min": 0.001,
+      "5%": 0.42,
+      "25%": 1.25,
+      "50%": 2.08,
+      "75%": 4.13,
+      "95%": 9.95,
+      "99%": 16.98,
+      "max": 13541.33,
+      "IQR": 2.88,
+      "Variance": 1302.707,
+      "Skewness": 205.085,
+      "Kurtosis": 61873.719,
+      "Mode": 1.25
+    },
+    {
+      "variable": "Revenue",
+      "count": 524878.0,
+      "mean": 20.275,
+      "std": 271.694,
+      "min": 0.001,
+      "5%": 1.25,
+      "25%": 3.9,
+      "50%": 9.92,
+      "75%": 17.7,
+      "95%": 59.8,
+      "99%": 183.6,
+      "max": 168469.6,
+      "IQR": 13.8,
+      "Variance": 73817.394,
+      "Skewness": 504.233,
+      "Kurtosis": 294741.143,
+      "Mode": 15.0
+    }
+  ],
+  "revenue_median": 9.92,
+  "revenue_mean": 20.275,
+  "invoice_value_median": 303.3,
+  "invoice_value_mean": 533.172,
+  "invoice_value_skew": 51.078,
+  "invoice_value_kurtosis": 4236.633,
+  "corr_spear_invoicevalue_qty": 0.839,
+  "corr_spear_invoicevalue_price": 0.094,
+  "corr_spear_invoicevalue_lines": 0.552,
+  "corr_cust_freq_mon": 0.807,
+  "corr_cust_rec_mon": -0.482,
+  "corr_cust_freq_aov": 0.156,
+  "corr_prod_units_rev": 0.87,
+  "country_top10": [
+    {
+      "Country": "United Kingdom",
+      "Revenue": 9001744.09,
+      "Orders": 18019,
+      "Customers": 3920,
+      "AOV": 499.57,
+      "RevenueSharePct": 84.59
+    },
+    {
+      "Country": "Netherlands",
+      "Revenue": 285446.34,
+      "Orders": 94,
+      "Customers": 9,
+      "AOV": 3036.66,
+      "RevenueSharePct": 2.68
+    },
+    {
+      "Country": "EIRE",
+      "Revenue": 283140.52,
+      "Orders": 288,
+      "Customers": 3,
+      "AOV": 983.13,
+      "RevenueSharePct": 2.66
+    },
+    {
+      "Country": "Germany",
+      "Revenue": 228678.4,
+      "Orders": 457,
+      "Customers": 94,
+      "AOV": 500.39,
+      "RevenueSharePct": 2.15
+    },
+    {
+      "Country": "France",
+      "Revenue": 209625.37,
+      "Orders": 392,
+      "Customers": 87,
+      "AOV": 534.76,
+      "RevenueSharePct": 1.97
+    },
+    {
+      "Country": "Australia",
+      "Revenue": 138453.81,
+      "Orders": 57,
+      "Customers": 9,
+      "AOV": 2429.01,
+      "RevenueSharePct": 1.3
+    },
+    {
+      "Country": "Spain",
+      "Revenue": 61558.56,
+      "Orders": 90,
+      "Customers": 30,
+      "AOV": 683.98,
+      "RevenueSharePct": 0.58
+    },
+    {
+      "Country": "Switzerland",
+      "Revenue": 57067.6,
+      "Orders": 54,
+      "Customers": 21,
+      "AOV": 1056.81,
+      "RevenueSharePct": 0.54
+    },
+    {
+      "Country": "Belgium",
+      "Revenue": 41196.34,
+      "Orders": 98,
+      "Customers": 25,
+      "AOV": 420.37,
+      "RevenueSharePct": 0.39
+    },
+    {
+      "Country": "Sweden",
+      "Revenue": 38367.83,
+      "Orders": 36,
+      "Customers": 8,
+      "AOV": 1065.77,
+      "RevenueSharePct": 0.36
+    }
+  ],
+  "weekday": [
+    {
+      "DayOfWeek": "Monday",
+      "Revenue": 1775782.07,
+      "Orders": 3126,
+      "RevenueSharePct": 16.69
+    },
+    {
+      "DayOfWeek": "Tuesday",
+      "Revenue": 2175700.51,
+      "Orders": 3554,
+      "RevenueSharePct": 20.44
+    },
+    {
+      "DayOfWeek": "Wednesday",
+      "Revenue": 1847074.38,
+      "Orders": 3690,
+      "RevenueSharePct": 17.36
+    },
+    {
+      "DayOfWeek": "Thursday",
+      "Revenue": 2199292.57,
+      "Orders": 4246,
+      "RevenueSharePct": 20.67
+    },
+    {
+      "DayOfWeek": "Friday",
+      "Revenue": 1837470.49,
+      "Orders": 3140,
+      "RevenueSharePct": 17.27
+    },
+    {
+      "DayOfWeek": "Sunday",
+      "Revenue": 806790.78,
+      "Orders": 2204,
+      "RevenueSharePct": 7.58
+    }
+  ],
+  "hourly": [
+    {
+      "Hour": 6,
+      "Revenue": 4.25,
+      "Orders": 1
+    },
+    {
+      "Hour": 7,
+      "Revenue": 31059.21,
+      "Orders": 29
+    },
+    {
+      "Hour": 8,
+      "Revenue": 283750.68,
+      "Orders": 566
+    },
+    {
+      "Hour": 9,
+      "Revenue": 990054.99,
+      "Orders": 1484
+    },
+    {
+      "Hour": 10,
+      "Revenue": 1444814.77,
+      "Orders": 2361
+    },
+    {
+      "Hour": 11,
+      "Revenue": 1236573.29,
+      "Orders": 2396
+    },
+    {
+      "Hour": 12,
+      "Revenue": 1439324.66,
+      "Orders": 3220
+    },
+    {
+      "Hour": 13,
+      "Revenue": 1261195.2,
+      "Orders": 2753
+    },
+    {
+      "Hour": 14,
+      "Revenue": 1177907.52,
+      "Orders": 2457
+    },
+    {
+      "Hour": 15,
+      "Revenue": 1350333.31,
+      "Orders": 2336
+    },
+    {
+      "Hour": 16,
+      "Revenue": 752487.96,
+      "Orders": 1335
+    },
+    {
+      "Hour": 17,
+      "Revenue": 460963.92,
+      "Orders": 667
+    },
+    {
+      "Hour": 18,
+      "Revenue": 144603.61,
+      "Orders": 192
+    },
+    {
+      "Hour": 19,
+      "Revenue": 50204.95,
+      "Orders": 146
+    },
+    {
+      "Hour": 20,
+      "Revenue": 18832.48,
+      "Orders": 18
+    }
+  ],
+  "daily_rows": 305,
+  "peak_hour": 12,
+  "peak_hour_orders": 3220,
+  "peak_weekday": "Thursday",
+  "peak_weekday_rev": 2199292.57,
+  "top_customers": [
+    {
+      "CustomerID": 14646.0,
+      "Recency": 1,
+      "Frequency": 73,
+      "Monetary": 280206.02,
+      "AOV": 3838.44,
+      "Country": "Netherlands",
+      "FirstPurchase": "2010-12-20 10:09:00",
+      "LastPurchase": "2011-12-08 12:12:00",
+      "TenureDays": 353
+    },
+    {
+      "CustomerID": 18102.0,
+      "Recency": 0,
+      "Frequency": 60,
+      "Monetary": 259657.3,
+      "AOV": 4327.62,
+      "Country": "United Kingdom",
+      "FirstPurchase": "2010-12-07 16:42:00",
+      "LastPurchase": "2011-12-09 11:50:00",
+      "TenureDays": 366
+    },
+    {
+      "CustomerID": 17450.0,
+      "Recency": 8,
+      "Frequency": 46,
+      "Monetary": 194390.79,
+      "AOV": 4225.89,
+      "Country": "United Kingdom",
+      "FirstPurchase": "2010-12-07 09:23:00",
+      "LastPurchase": "2011-12-01 13:29:00",
+      "TenureDays": 359
+    },
+    {
+      "CustomerID": 16446.0,
+      "Recency": 0,
+      "Frequency": 2,
+      "Monetary": 168472.5,
+      "AOV": 84236.25,
+      "Country": "United Kingdom",
+      "FirstPurchase": "2011-05-18 09:52:00",
+      "LastPurchase": "2011-12-09 09:15:00",
+      "TenureDays": 204
+    },
+    {
+      "CustomerID": 14911.0,
+      "Recency": 1,
+      "Frequency": 201,
+      "Monetary": 143711.17,
+      "AOV": 714.98,
+      "Country": "EIRE",
+      "FirstPurchase": "2010-12-01 14:05:00",
+      "LastPurchase": "2011-12-08 15:54:00",
+      "TenureDays": 372
+    },
+    {
+      "CustomerID": 12415.0,
+      "Recency": 24,
+      "Frequency": 21,
+      "Monetary": 124914.53,
+      "AOV": 5948.31,
+      "Country": "Australia",
+      "FirstPurchase": "2011-01-06 11:12:00",
+      "LastPurchase": "2011-11-15 14:22:00",
+      "TenureDays": 313
+    },
+    {
+      "CustomerID": 14156.0,
+      "Recency": 9,
+      "Frequency": 55,
+      "Monetary": 117210.08,
+      "AOV": 2131.09,
+      "Country": "EIRE",
+      "FirstPurchase": "2010-12-03 11:48:00",
+      "LastPurchase": "2011-11-30 10:54:00",
+      "TenureDays": 361
+    },
+    {
+      "CustomerID": 17511.0,
+      "Recency": 2,
+      "Frequency": 31,
+      "Monetary": 91062.38,
+      "AOV": 2937.5,
+      "Country": "United Kingdom",
+      "FirstPurchase": "2010-12-01 10:19:00",
+      "LastPurchase": "2011-12-07 10:12:00",
+      "TenureDays": 370
+    },
+    {
+      "CustomerID": 16029.0,
+      "Recency": 38,
+      "Frequency": 63,
+      "Monetary": 80850.84,
+      "AOV": 1283.35,
+      "Country": "United Kingdom",
+      "FirstPurchase": "2010-12-01 09:57:00",
+      "LastPurchase": "2011-11-01 10:27:00",
+      "TenureDays": 335
+    },
+    {
+      "CustomerID": 12346.0,
+      "Recency": 325,
+      "Frequency": 1,
+      "Monetary": 77183.6,
+      "AOV": 77183.6,
+      "Country": "United Kingdom",
+      "FirstPurchase": "2011-01-18 10:01:00",
+      "LastPurchase": "2011-01-18 10:01:00",
+      "TenureDays": 0
+    }
+  ],
+  "mean_orders_per_customer": 4.27,
+  "median_orders_per_customer": 2.0,
+  "top10_cust_rev": 1537659.21,
+  "top10_cust_share": 14.45,
+  "top10_products_rev": [
+    {
+      "StockCode": 22423,
+      "Description": "REGENCY CAKESTAND 3 TIER",
+      "Units": 13851,
+      "Revenue": 174156.54
+    },
+    {
+      "StockCode": 23843,
+      "Description": "PAPER CRAFT , LITTLE BIRDIE",
+      "Units": 80995,
+      "Revenue": 168469.6
+    },
+    {
+      "StockCode": "85123A",
+      "Description": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "Units": 37641,
+      "Revenue": 104462.75
+    },
+    {
+      "StockCode": 47566,
+      "Description": "PARTY BUNTING",
+      "Units": 18283,
+      "Revenue": 99445.23
+    },
+    {
+      "StockCode": "85099B",
+      "Description": "JUMBO BAG RED RETROSPOT",
+      "Units": 48371,
+      "Revenue": 94159.81
+    },
+    {
+      "StockCode": 23166,
+      "Description": "MEDIUM CERAMIC TOP STORAGE JAR",
+      "Units": 78033,
+      "Revenue": 81700.92
+    },
+    {
+      "StockCode": 23084,
+      "Description": "RABBIT NIGHT LIGHT",
+      "Units": 30739,
+      "Revenue": 66870.03
+    },
+    {
+      "StockCode": 22086,
+      "Description": "PAPER CHAIN KIT 50'S CHRISTMAS ",
+      "Units": 19329,
+      "Revenue": 64875.59
+    },
+    {
+      "StockCode": 84879,
+      "Description": "ASSORTED COLOUR BIRD ORNAMENT",
+      "Units": 36362,
+      "Revenue": 58927.62
+    },
+    {
+      "StockCode": 79321,
+      "Description": "CHILLI LIGHTS",
+      "Units": 10302,
+      "Revenue": 54096.36
+    }
+  ],
+  "top10_products_qty": [
+    {
+      "StockCode": 23843,
+      "Description": "PAPER CRAFT , LITTLE BIRDIE",
+      "Units": 80995,
+      "Revenue": 168469.6
+    },
+    {
+      "StockCode": 23166,
+      "Description": "MEDIUM CERAMIC TOP STORAGE JAR",
+      "Units": 78033,
+      "Revenue": 81700.92
+    },
+    {
+      "StockCode": 22197,
+      "Description": "SMALL POPCORN HOLDER",
+      "Units": 56898,
+      "Revenue": 51334.47
+    },
+    {
+      "StockCode": 84077,
+      "Description": "WORLD WAR 2 GLIDERS ASSTD DESIGNS",
+      "Units": 54951,
+      "Revenue": 13814.01
+    },
+    {
+      "StockCode": "85099B",
+      "Description": "JUMBO BAG RED RETROSPOT",
+      "Units": 48371,
+      "Revenue": 94159.81
+    },
+    {
+      "StockCode": "85123A",
+      "Description": "WHITE HANGING HEART T-LIGHT HOLDER",
+      "Units": 37641,
+      "Revenue": 104462.75
+    },
+    {
+      "StockCode": 21212,
+      "Description": "PACK OF 72 RETROSPOT CAKE CASES",
+      "Units": 36396,
+      "Revenue": 21246.45
+    },
+    {
+      "StockCode": 84879,
+      "Description": "ASSORTED COLOUR BIRD ORNAMENT",
+      "Units": 36362,
+      "Revenue": 58927.62
+    },
+    {
+      "StockCode": 23084,
+      "Description": "RABBIT NIGHT LIGHT",
+      "Units": 30739,
+      "Revenue": 66870.03
+    },
+    {
+      "StockCode": 22492,
+      "Description": "MINI PAINT SET VINTAGE ",
+      "Units": 26633,
+      "Revenue": 16937.82
+    }
+  ],
+  "low_products": [
+    {
+      "StockCode": 84227,
+      "Description": "HEN HOUSE W CHICK IN NEST",
+      "Units": 1,
+      "Revenue": 0.42
+    },
+    {
+      "StockCode": "51014c",
+      "Description": "FEATHER PEN,COAL BLACK",
+      "Units": 1,
+      "Revenue": 0.83
+    },
+    {
+      "StockCode": 21268,
+      "Description": "VINTAGE BLUE TINSEL REEL",
+      "Units": 2,
+      "Revenue": 0.84
+    },
+    {
+      "StockCode": 90084,
+      "Description": "PINK CRYSTAL GUITAR PHONE CHARM",
+      "Units": 1,
+      "Revenue": 0.85
+    },
+    {
+      "StockCode": "84201C",
+      "Description": "HAPPY BIRTHDAY CARD TEDDY/CAKE",
+      "Units": 5,
+      "Revenue": 0.95
+    },
+    {
+      "StockCode": "84206B",
+      "Description": "CAT WITH SUNGLASSES BLANK CARD",
+      "Units": 5,
+      "Revenue": 0.95
+    },
+    {
+      "StockCode": 84990,
+      "Description": "60 GOLD AND SILVER FAIRY CAKE CASES",
+      "Units": 2,
+      "Revenue": 1.1
+    },
+    {
+      "StockCode": 21009,
+      "Description": "ETCHED GLASS STAR TREE DECORATION",
+      "Units": 1,
+      "Revenue": 1.25
+    }
+  ],
+  "n_products": 3912,
+  "top10_prod_rev_share": 9.44,
+  "cancel_value_abs": 893979.73,
+  "cancel_value_pct_gross": 7.75,
+  "cancel_monthly": [
+    {
+      "InvoiceDate": "2010-12",
+      "Cancellations": 326,
+      "Lines": 719,
+      "Value": -74729.12,
+      "Month": "2010-12"
+    },
+    {
+      "InvoiceDate": "2011-01",
+      "Cancellations": 260,
+      "Lines": 700,
+      "Value": -131363.05,
+      "Month": "2011-01"
+    },
+    {
+      "InvoiceDate": "2011-02",
+      "Cancellations": 219,
+      "Lines": 470,
+      "Value": -25519.15,
+      "Month": "2011-02"
+    },
+    {
+      "InvoiceDate": "2011-03",
+      "Cancellations": 318,
+      "Lines": 696,
+      "Value": -34201.28,
+      "Month": "2011-03"
+    },
+    {
+      "InvoiceDate": "2011-04",
+      "Cancellations": 240,
+      "Lines": 558,
+      "Value": -44600.65,
+      "Month": "2011-04"
+    },
+    {
+      "InvoiceDate": "2011-05",
+      "Cancellations": 314,
+      "Lines": 621,
+      "Value": -47202.51,
+      "Month": "2011-05"
+    },
+    {
+      "InvoiceDate": "2011-06",
+      "Cancellations": 329,
+      "Lines": 709,
+      "Value": -70569.78,
+      "Month": "2011-06"
+    },
+    {
+      "InvoiceDate": "2011-07",
+      "Cancellations": 270,
+      "Lines": 684,
+      "Value": -37919.13,
+      "Month": "2011-07"
+    },
+    {
+      "InvoiceDate": "2011-08",
+      "Cancellations": 278,
+      "Lines": 667,
+      "Value": -54330.8,
+      "Month": "2011-08"
+    },
+    {
+      "InvoiceDate": "2011-09",
+      "Cancellations": 333,
+      "Lines": 801,
+      "Value": -38838.51,
+      "Month": "2011-09"
+    },
+    {
+      "InvoiceDate": "2011-10",
+      "Cancellations": 362,
+      "Lines": 1194,
+      "Value": -81895.5,
+      "Month": "2011-10"
+    },
+    {
+      "InvoiceDate": "2011-11",
+      "Cancellations": 441,
+      "Lines": 1073,
+      "Value": -47720.98,
+      "Month": "2011-11"
+    },
+    {
+      "InvoiceDate": "2011-12",
+      "Cancellations": 146,
+      "Lines": 359,
+      "Value": -205089.27,
+      "Month": "2011-12"
+    }
+  ],
+  "cancel_top_products": [
+    {
+      "StockCode": "M",
+      "Description": "Manual",
+      "TimesCancelled": 223,
+      "Units": -4066
+    },
+    {
+      "StockCode": 22423,
+      "Description": "REGENCY CAKESTAND 3 TIER",
+      "TimesCancelled": 180,
+      "Units": -855
+    },
+    {
+      "StockCode": "POST",
+      "Description": "POSTAGE",
+      "TimesCancelled": 124,
+      "Units": -147
+    },
+    {
+      "StockCode": 22960,
+      "Description": "JAM MAKING SET WITH JARS",
+      "TimesCancelled": 87,
+      "Units": -247
+    },
+    {
+      "StockCode": 22720,
+      "Description": "SET OF 3 CAKE TINS PANTRY DESIGN ",
+      "TimesCancelled": 73,
+      "Units": -154
+    },
+    {
+      "StockCode": "D",
+      "Description": "Discount",
+      "TimesCancelled": 65,
+      "Units": -1194
+    },
+    {
+      "StockCode": 22699,
+      "Description": "ROSES REGENCY TEACUP AND SAUCER ",
+      "TimesCancelled": 54,
+      "Units": -437
+    },
+    {
+      "StockCode": 21232,
+      "Description": "STRAWBERRY CERAMIC TRINKET BOX",
+      "TimesCancelled": 52,
+      "Units": -362
+    },
+    {
+      "StockCode": 22666,
+      "Description": "RECIPE BOX PANTRY YELLOW DESIGN",
+      "TimesCancelled": 47,
+      "Units": -151
+    },
+    {
+      "StockCode": "85099B",
+      "Description": "JUMBO BAG RED RETROSPOT",
+      "TimesCancelled": 43,
+      "Units": -1115
+    }
+  ],
+  "cancel_peak_month": "2011-11",
+  "cancel_peak_month_n": 441,
+  "rfm_segments": [
+    {
+      "Segment": "Champions",
+      "Customers": 942,
+      "Revenue": 5729483.37,
+      "AvgRecency": 12.0,
+      "AvgFrequency": 11.2,
+      "AvgMonetary": 6082.25,
+      "RevenueSharePct": 64.47,
+      "CustomerSharePct": 21.72
+    },
+    {
+      "Segment": "Loyal Customers",
+      "Customers": 770,
+      "Revenue": 1439911.78,
+      "AvgRecency": 34.71,
+      "AvgFrequency": 4.16,
+      "AvgMonetary": 1870.02,
+      "RevenueSharePct": 16.2,
+      "CustomerSharePct": 17.75
+    },
+    {
+      "Segment": "At Risk",
+      "Customers": 485,
+      "Revenue": 433176.38,
+      "AvgRecency": 160.18,
+      "AvgFrequency": 2.66,
+      "AvgMonetary": 893.15,
+      "RevenueSharePct": 4.87,
+      "CustomerSharePct": 11.18
+    },
+    {
+      "Segment": "Can't Lose Them",
+      "Customers": 173,
+      "Revenue": 385720.16,
+      "AvgRecency": 123.54,
+      "AvgFrequency": 5.5,
+      "AvgMonetary": 2229.6,
+      "RevenueSharePct": 4.34,
+      "CustomerSharePct": 3.99
+    },
+    {
+      "Segment": "Lost",
+      "Customers": 570,
+      "Revenue": 292575.84,
+      "AvgRecency": 219.6,
+      "AvgFrequency": 1.0,
+      "AvgMonetary": 513.29,
+      "RevenueSharePct": 3.29,
+      "CustomerSharePct": 13.14
+    },
+    {
+      "Segment": "Hibernating",
+      "Customers": 507,
+      "Revenue": 232239.26,
+      "AvgRecency": 211.51,
+      "AvgFrequency": 1.22,
+      "AvgMonetary": 458.07,
+      "RevenueSharePct": 2.61,
+      "CustomerSharePct": 11.69
+    },
+    {
+      "Segment": "Needs Attention",
+      "Customers": 432,
+      "Revenue": 189511.63,
+      "AvgRecency": 51.55,
+      "AvgFrequency": 1.39,
+      "AvgMonetary": 438.68,
+      "RevenueSharePct": 2.13,
+      "CustomerSharePct": 9.96
+    },
+    {
+      "Segment": "Potential Loyalist",
+      "Customers": 326,
+      "Revenue": 141387.33,
+      "AvgRecency": 16.23,
+      "AvgFrequency": 1.9,
+      "AvgMonetary": 433.7,
+      "RevenueSharePct": 1.59,
+      "CustomerSharePct": 7.51
+    },
+    {
+      "Segment": "New / Promising",
+      "Customers": 133,
+      "Revenue": 43203.14,
+      "AvgRecency": 17.22,
+      "AvgFrequency": 1.0,
+      "AvgMonetary": 324.84,
+      "RevenueSharePct": 0.49,
+      "CustomerSharePct": 3.07
+    }
+  ],
+  "rfm_champions_n": 942,
+  "rfm_champions_rev": 5729483.37,
+  "rfm_champions_share": 64.47,
+  "rfm_at_risk_n": 485,
+  "rfm_at_risk_rev": 433176.38,
+  "pareto_cust_n80": 1130,
+  "pareto_cust_pct80": 26.05,
+  "pareto_cust_top20_share": 74.66,
+  "pareto_cust_top10_share": 61.41,
+  "pareto_cust_top5_share": 50.39,
+  "pareto_cust_top1_share": 31.84,
+  "pareto_prod_n80": 825,
+  "pareto_prod_pct80": 21.09,
+  "pareto_prod_top20_share": 78.8,
+  "customer_corr": [
+    {
+      "pair": "Frequency \u2194 Monetary",
+      "Spearman rho": 0.807,
+      "Pearson r": 0.553
+    },
+    {
+      "pair": "Recency \u2194 Monetary",
+      "Spearman rho": -0.482,
+      "Pearson r": -0.122
+    },
+    {
+      "pair": "Frequency \u2194 AOV",
+      "Spearman rho": 0.156,
+      "Pearson r": 0.019
+    },
+    {
+      "pair": "Tenure \u2194 Monetary",
+      "Spearman rho": 0.722,
+      "Pearson r": 0.225
+    }
+  ],
+  "qty_outlier_pct": 5.17,
+  "price_outlier_pct": 7.21,
+  "extreme_txns": [
+    {
+      "InvoiceNo": 581483,
+      "StockCode": 23843,
+      "Description": "PAPER CRAFT , LITTLE BIRDIE",
+      "Quantity": 80995,
+      "UnitPrice": 2.08,
+      "Revenue": 168469.6,
+      "Country": "United Kingdom"
+    },
+    {
+      "InvoiceNo": 541431,
+      "StockCode": 23166,
+      "Description": "MEDIUM CERAMIC TOP STORAGE JAR",
+      "Quantity": 74215,
+      "UnitPrice": 1.04,
+      "Revenue": 77183.6,
+      "Country": "United Kingdom"
+    },
+    {
+      "InvoiceNo": 556444,
+      "StockCode": 22502,
+      "Description": "PICNIC BASKET WICKER 60 PIECES",
+      "Quantity": 60,
+      "UnitPrice": 649.5,
+      "Revenue": 38970.0,
+      "Country": "United Kingdom"
+    },
+    {
+      "InvoiceNo": 537632,
+      "StockCode": "AMAZONFEE",
+      "Description": "AMAZON FEE",
+      "Quantity": 1,
+      "UnitPrice": 13541.33,
+      "Revenue": 13541.33,
+      "Country": "United Kingdom"
+    },
+    {
+      "InvoiceNo": "A563185",
+      "StockCode": "B",
+      "Description": "Adjust bad debt",
+      "Quantity": 1,
+      "UnitPrice": 11062.06,
+      "Revenue": 11062.06,
+      "Country": "United Kingdom"
+    },
+    {
+      "InvoiceNo": 551697,
+      "StockCode": "POST",
+      "Description": "POSTAGE",
+      "Quantity": 1,
+      "UnitPrice": 8142.75,
+      "Revenue": 8142.75,
+      "Country": "United Kingdom"
+    },
+    {
+      "InvoiceNo": 567423,
+      "StockCode": 23243,
+      "Description": "SET OF TEA COFFEE SUGAR TINS PANTRY",
+      "Quantity": 1412,
+      "UnitPrice": 5.06,
+      "Revenue": 7144.72,
+      "Country": "United Kingdom"
+    },
+    {
+      "InvoiceNo": 540815,
+      "StockCode": 21108,
+      "Description": "FAIRY CAKE FLANNEL ASSORTED COLOUR",
+      "Quantity": 3114,
+      "UnitPrice": 2.1,
+      "Revenue": 6539.4,
+      "Country": "United Kingdom"
+    }
+  ],
+  "revenue_winsorised_99": 8907983.82,
+  "revenue_threshold_99": 183.6,
+  "revenue_top1pct_share": 25.4,
+  "aov_ci_low": 508.47,
+  "aov_ci_high": 557.87,
+  "aov_mean": 533.17,
+  "aov_median": 303.3,
+  "test_uk": {
+    "n_uk": 18019,
+    "mean_uk": 499.57,
+    "median_uk": 299.95,
+    "n_nonuk": 1941,
+    "mean_nonuk": 845.11,
+    "median_nonuk": 424.06,
+    "t_stat": -8.294,
+    "p_value": 1.7984405315585268e-16,
+    "cohens_d": -0.194,
+    "mannwhitney_u": 12827795.0,
+    "mannwhitney_p": 3.751717107164972e-83
+  },
+  "test_repeat": {
+    "n_repeat": 2845,
+    "mean_repeat": 421.0,
+    "median_repeat": 302.56,
+    "n_one": 1493,
+    "mean_one": 411.25,
+    "median_one": 255.91,
+    "t_stat": 0.16,
+    "p_value": 0.8732044790532068,
+    "cohens_d": 0.005,
+    "mannwhitney_u": 2391415.5,
+    "mannwhitney_p": 8.55997969342681e-12
+  },
+  "test_chi": {
+    "chi2": 0.002,
+    "dof": 1,
+    "p_value": 0.9687141849780605,
+    "cramers_v": 0.001,
+    "table": [
+      {
+        "CountryGroup": "Non-UK",
+        "One-time": 143,
+        "Repeat": 275
+      },
+      {
+        "CountryGroup": "UK",
+        "One-time": 1350,
+        "Repeat": 2570
+      }
+    ]
+  },
+  "captions": {
+    "monthly_revenue.png": "Monthly net revenue from December 2010 to December 2011. Values are in GBP thousands. The series shows a strong seasonal build-up to November\u2013December, with December 2011 partial (only 1\u20139 December observed).",
+    "monthly_orders.png": "Monthly count of distinct invoices. Order volume follows the same seasonal shape as revenue, confirming that the seasonal peak is demand-driven rather than price-driven.",
+    "top_products.png": "Top 10 physical products by net revenue. Revenue is concentrated in a small set of decorative and giftware lines; product-level revenue is far more concentrated than unit demand.",
+    "top_products_qty.png": "Top 10 products by unit volume. The volume leaders differ from the revenue leaders: cheap, high-turnover items sell in bulk but contribute less value per unit.",
+    "country_analysis.png": "Revenue by country (top 15). The United Kingdom dominates, followed by a small group of EU markets; the long tail of countries each contributes a very small share.",
+    "quantity_distribution.png": "Distribution of quantity per invoice line, clipped at 100 units for readability (maximum observed = 80,995). The distribution is right-skewed with a median of 4 units; most lines are small retail quantities.",
+    "unitprice_distribution.png": "Distribution of unit price, clipped at \u00a3100 for readability (maximum observed = \u00a313,541.33). The median price is \u00a32.08, indicating a low-value, high-volume product mix with a thin high-price tail.",
+    "revenue_distribution.png": "Distribution of invoice values clipped at the 99th percentile. Most invoices are small; the mean is pulled upward by a small number of very large wholesale orders.",
+    "quantity_outliers.png": "Box plot of order quantity on a log scale. The box spans the interquartile range; the many fliers above the upper whisker are genuine large purchases, not automatic errors.",
+    "customer_spending_box.png": "Distribution of total spend per customer on a log scale. The wide spread confirms a high-value minority coexisting with a large base of low-spend customers.",
+    "customer_segmentation.png": "Customer counts by RFM segment. The majority of customers fall into low-frequency, low-value segments, while Champions are a small but commercially critical group.",
+    "correlation_heatmap.png": "Spearman correlation matrix for invoice-level variables. Invoice value is strongly driven by line count and quantity; unit price shows a weaker association, so value growth comes mainly from basket size rather than price.",
+    "cancellation_trends.png": "Monthly cancellation invoice counts. Cancellations occur throughout the year and peak in the high-volume autumn months, tracking overall activity rather than a single incident.",
+    "weekday_sales.png": "Revenue by day of week. Weekday trading dominates; the weekend share is materially lower, which has direct implications for staffing and promotional scheduling.",
+    "hourly_patterns.png": "Order volume by hour of day. Activity is concentrated in business hours with a clear midday peak, consistent with B2B-style buying behaviour.",
+    "pareto_chart.png": "Pareto curve of customer revenue concentration. The curve rises steeply at the top, showing that a minority of customers generates the majority of revenue; the 80% threshold is reached at 1,130 customers.",
+    "top_customers.png": "Top 10 customers by net revenue. The leading account alone contributes a material share of total revenue, creating concentration risk that management should monitor.",
+    "rfm_scatter.png": "RFM map of a 3,000-customer random sample. Recent, high-value customers (Champions) sit in the top-left; long-inactive high-value accounts (Can't Lose / At Risk) appear in the top-right and represent the clearest win-back opportunity."
+  },
+  "n_charts": 18,
+  "opportunities": [
+    {
+      "Opportunity": "Win back high-value lapsed customers",
+      "Evidence": "Can't Lose + At Risk segments contain 658 customers worth \u00a3818,897",
+      "Business problem": "Previously valuable customers have stopped purchasing, leaving revenue exposed.",
+      "Proposed solution": "Targeted win-back campaign with personalised offers and a service-level check-in.",
+      "Expected benefit": "Recover a share of lapsed high-value revenue; protect the revenue base.",
+      "KPI to monitor": "Win-back conversion rate; recovered revenue per campaign.",
+      "Risk / limitation": "Historical response behaviour is unknown; campaign lift must be measured with a control group."
+    },
+    {
+      "Opportunity": "Grow basket size rather than unit price",
+      "Evidence": "Spearman rho between invoice value and line count = 0.55, versus 0.09 for average price",
+      "Business problem": "Revenue is driven mainly by number of lines, not by higher prices.",
+      "Proposed solution": "Cross-sell bundles and 'complete the set' recommendations at checkout.",
+      "Expected benefit": "Higher items per order without discounting, protecting margin.",
+      "KPI to monitor": "Average lines per invoice; attach rate; AOV.",
+      "Risk / limitation": "Cross-sell may cannibalise existing lines; test on a holdout group."
+    },
+    {
+      "Opportunity": "Concentrate retention effort on the revenue core",
+      "Evidence": "Top 26.1% of customers (1,130 accounts) generate 80% of revenue; top 1% generate 31.8%",
+      "Business problem": "Revenue is highly concentrated, so losing a few accounts is material.",
+      "Proposed solution": "Named-account management and service guarantees for the top revenue accounts.",
+      "Expected benefit": "Reduced churn risk on the highest-value relationships.",
+      "KPI to monitor": "Revenue retention of top-decile accounts; churn of top 100 accounts.",
+      "Risk / limitation": "Over-serving small accounts could distort cost-to-serve; concentration remains a structural risk."
+    },
+    {
+      "Opportunity": "Replicate the UK playbook in selected EU markets",
+      "Evidence": "UK contributes 84.6% of revenue; Germany is the largest non-UK market at \u00a3228,678",
+      "Business problem": "Growth depends almost entirely on one market.",
+      "Proposed solution": "Localise catalogue, pricing and delivery messaging for the top 3 EU markets.",
+      "Expected benefit": "Diversified revenue base and reduced single-market exposure.",
+      "KPI to monitor": "Non-UK revenue share; non-UK repeat rate; delivery cost per order.",
+      "Risk / limitation": "Cross-border logistics and pricing differences may erode margin; results are not transferable without testing."
+    },
+    {
+      "Opportunity": "Reduce avoidable cancellation leakage",
+      "Evidence": "3,836 cancellation invoices (16.12% of invoices) with \u00a3893,980 gross value",
+      "Business problem": "Returns and cancellations remove revenue after the sale is booked.",
+      "Proposed solution": "Pre-purchase quality checks, clearer sizing guidance and a cancellation-reason code.",
+      "Expected benefit": "Lower cancellation rate and better root-cause visibility.",
+      "KPI to monitor": "Cancellation rate by product and reason code; net revenue per SKU.",
+      "Risk / limitation": "Some cancellations are genuine commercial returns; reducing them too aggressively harms customer trust."
+    },
+    {
+      "Opportunity": "Extend the seasonal peak with an early-autumn campaign",
+      "Evidence": "Peak month is Nov 2011 at \u00a31,503,867; order volume peaks in the same period",
+      "Business problem": "Revenue is concentrated in a short seasonal window, creating capacity and cash-flow swings.",
+      "Proposed solution": "Shift a defined share of promotional spend to September\u2013October and pre-build stock.",
+      "Expected benefit": "Smoother revenue, better inventory utilisation, lower peak-season stress.",
+      "KPI to monitor": "Off-season revenue growth; stock cover; peak-season service level.",
+      "Risk / limitation": "Demand may simply be pulled forward rather than created; measure incremental, not shifted, revenue."
+    }
+  ],
+  "findings": [
+    [
+      "F1",
+      "Revenue is highly concentrated in time and in customers.",
+      "Peak month Nov 2011 generated \u00a31,503,867; the top 1% of customers generate 31.8% of revenue.",
+      "Demand is seasonal and the customer base is top-heavy.",
+      "Build seasonal capacity plans and protect top accounts."
+    ],
+    [
+      "F2",
+      "The 80/20 rule holds for customers but only approximately.",
+      "1,130 customers (26.1%) produce 80% of revenue; the top 20% produce 74.7%.",
+      "Concentration is real but not exactly 80/20; the curve is steeper at the very top.",
+      "Prioritise retention of the top 20% and monitor the top 1% for churn."
+    ],
+    [
+      "F3",
+      "Revenue is driven by basket size, not price.",
+      "Spearman rho (invoice value vs lines) = 0.55; (invoice value vs average price) = 0.09.",
+      "Customers spend more by adding lines rather than accepting higher prices.",
+      "Use cross-sell and bundling instead of price increases."
+    ],
+    [
+      "F4",
+      "The UK dominates the revenue base.",
+      "UK revenue = \u00a39,001,744 (84.6% of total); the largest non-UK market is Germany.",
+      "Geographic concentration is a material business risk.",
+      "Diversify into selected EU markets with localised offers."
+    ],
+    [
+      "F5",
+      "Repeat purchase is the norm among identified customers, but a large anonymous base exists.",
+      "2,845 of 4,338 identified customers (65.6%) ordered more than once; 135,080 lines have no CustomerID.",
+      "Identified customers are loyal, but 25% of activity cannot be attributed.",
+      "Incentivise account creation / loyalty sign-up to close the attribution gap."
+    ],
+    [
+      "F6",
+      "Cancellations are a persistent, material leakage.",
+      "3,836 cancellation invoices (16.12% of invoices) with \u00a3893,980 gross value.",
+      "Returns reduce realised revenue and complicate demand forecasting.",
+      "Introduce cancellation reason codes and product-level quality checks."
+    ],
+    [
+      "F7",
+      "Extreme values are genuine commercial events, not errors.",
+      "Largest valid line: 80,995 units of PAPER CRAFT , LITTLE BIRDIE (\u00a3168,470).",
+      "Wholesale-style purchases exist and materially affect totals.",
+      "Retain outliers in headline totals; report medians alongside means."
+    ],
+    [
+      "F8",
+      "Customer value is highly unequal.",
+      "Top customer 14646 contributes \u00a3280,206 (2.6% of revenue); top 10 contribute 14.4%.",
+      "A small number of accounts carry a large share of revenue.",
+      "Create named-account plans and monitor concentration risk."
+    ],
+    [
+      "F9",
+      "Non-UK customers place materially higher-value orders, but the effect size is small.",
+      "UK mean AOV \u00a3500 vs non-UK \u00a3845; medians \u00a3300 vs \u00a3424; Welch p = 1.80e-16, Cohen's d = -0.19.",
+      "The difference is statistically significant but small in magnitude, so it should not drive a wholesale pricing change.",
+      "Test market-specific shipping thresholds and promotions rather than assuming a uniform international price premium."
+    ],
+    [
+      "F10",
+      "Repeat customers buy more consistently, but not at a higher average order value.",
+      "Mean AOV \u00a3421 (repeat) vs \u00a3411 (one-time), Welch p = 0.87, d = 0.01; medians \u00a3303 vs \u00a3256, Mann\u2013Whitney p = 8.56e-12.",
+      "The means are indistinguishable, but the whole distribution is shifted upward for repeat buyers \u2014 loyalty improves basket consistency rather than average value.",
+      "Do not assume loyalty automatically raises AOV; measure basket-building interventions separately from retention."
+    ],
+    [
+      "F11",
+      "Trading is concentrated on weekdays and business hours.",
+      "Peak day Thursday (revenue \u00a32,199,293); peak hour 12:00 with 3,220 invoices.",
+      "Demand follows a B2B-style weekly rhythm.",
+      "Align staffing, dispatch and campaign sends to the observed rhythm."
+    ],
+    [
+      "F12",
+      "Product revenue sits in a long tail, not in a handful of hero products.",
+      "The top 10 products account for only 9.4% of product revenue; 825 of 3,912 products (21.1%) are needed to reach 80%.",
+      "Unlike the customer base, the catalogue is not dominated by a few items; 3,912 products share the revenue.",
+      "Manage the tail actively (rationalisation, availability) instead of assuming a few hero SKUs carry the business."
+    ]
+  ],
+  "uk_line_share": 91.43,
+  "n_missing_cust_pct": 24.93
+}

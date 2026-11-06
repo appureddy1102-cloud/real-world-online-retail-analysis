@@ -1,0 +1,10 @@
+Data quality issue,Count in raw data,Treatment,Records affected (working data),Reason
+Exact duplicate records,5268,Removed,5268,Identical copies; retaining them would double-count revenue and units.
+Missing product description,1454,Imputed with 'UNKNOWN',1454,Preserves the transaction line; the product name is unavailable in the source file.
+Cancellation invoices (InvoiceNo prefix 'C'),9288,Separated into cancellation dataset; excluded from valid sales,9251,"Credit notes are genuine returns, not revenue; they must be analysed separately."
+Negative quantity on non-cancellation invoices,1336,Separated into returns dataset; excluded from valid sales,1336,Unpaid/returned goods; including them would understate sales.
+Zero or negative unit price,2517,Excluded from valid sales; retained in raw data,2512,Zero-price lines carry no revenue; negative prices are data-entry errors.
+"Non-product stock codes (postage, fees, samples)",2916,"Flagged; retained in revenue totals, excluded from product rankings",2910,These lines are real revenue but are not physical products; mixing them distorts product demand.
+Missing CustomerID,135080,Retained and flagged; excluded only from customer-level analysis,135037,Dropping these rows would remove 25% of transactions and bias revenue/geography results.
+Invalid or missing invoice date,0,None required,0,No invalid dates were found; the column parsed cleanly as datetime.
+Unusual quantity / price values (IQR rule),37827,Retained and flagged; winsorised only in a sensitivity check,37827,Inspection showed genuine wholesale purchases; automatic deletion would destroy real revenue.

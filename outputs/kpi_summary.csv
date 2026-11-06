@@ -1,0 +1,15 @@
+KPI,Calculated result,Definition / denominator
+Total valid sales revenue (GBP),"£10,642,110.80","Sum of Quantity × UnitPrice on valid, non-cancelled, positive-price lines."
+Total units sold,"5,572,420",Sum of Quantity on valid sales lines.
+Total valid invoices,"19,960",Distinct InvoiceNo values in the valid sales dataset.
+Unique purchasing customers,"4,338",Distinct non-null CustomerID in valid sales.
+"Average order value (AOV, GBP)",£533.17,"Total revenue ÷ 19,960 valid invoices."
+Repeat customer rate (%),65.58%,"2,845 customers with >1 invoice ÷ 4,338 purchasing customers."
+One-time customer share (%),34.42%,"1,493 customers with exactly 1 invoice ÷ 4,338 purchasing customers."
+Cancellation rate by invoice (%),16.12%,"3,836 cancellation invoices ÷ (3,836 cancellations + 19,960 valid invoices)."
+Cancellation rate by line (%),1.73%,"9,251 cancellation lines ÷ (9,251 cancellation lines + 524,878 valid lines)."
+"Cancellation value (GBP, absolute)","£893,979.73",Sum of Quantity × UnitPrice on cancellation lines (negative by construction).
+Top country revenue (GBP),"£9,001,744.09",United Kingdom revenue ÷ total revenue = 84.59%.
+Top customer revenue (GBP),"£280,206.02",Customer 14646 ÷ total revenue = 2.63%.
+Peak month revenue (GBP),"£1,503,866.78",Nov 2011 is the highest-revenue month.
+Latest-month MoM growth (%),-57.59%,Dec 2011 vs Nov 2011 (partial month).

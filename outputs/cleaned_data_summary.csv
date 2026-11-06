@@ -1,0 +1,7 @@
+dataset,rows,columns,description
+raw_dataset,541909,8,Original untouched UCI file
+cleaned_all_records,536641,12,Duplicates removed; cancellations/returns flagged
+valid_sales_analysis,524878,12,"Positive quantity & price, non-cancelled"
+valid_sales_feature_engineered,524878,23,Valid sales + 11 derived variables
+cancellation_analysis,9251,12,InvoiceNo prefix 'C'
+returns_analysis,1336,12,"Negative quantity, non-cancellation"

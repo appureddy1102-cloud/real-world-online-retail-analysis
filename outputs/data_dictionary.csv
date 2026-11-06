@@ -1,0 +1,9 @@
+Variable,Data type,Description,Example value (actual),Analytical purpose
+InvoiceNo,object (text),Unique transaction identifier; prefix 'C' marks a cancellation/credit note.,536365,Invoice-level aggregation; separating cancellations from sales
+StockCode,object (text),"Product or service code (includes non-product codes such as POST, DOT, M, AMAZONFEE).",85123A,Product identification and demand analysis
+Description,object (text),"Human-readable product name; 1,454 missing values.",WHITE HANGING HEART T-LIGHT HOLDER,"Product naming, top-product reporting, data-quality checks"
+Quantity,int64,Number of units on the invoice line; negative values are returns.,6,"Demand, outlier detection, revenue calculation"
+InvoiceDate,datetime64[ns],Date and time the invoice was generated.,2010-12-01 08:26:00,"Time-series, seasonality, recency, weekday/hour patterns"
+UnitPrice,float64,Price per unit in GBP; zero/negative values occur on some lines.,2.55,"Revenue calculation, price distribution, outlier checks"
+CustomerID,float64 (nullable),"Anonymous numeric customer identifier; 135,080 missing (24.93%).",17850.0,"RFM segmentation, customer value, repeat-purchase analysis"
+Country,object (text),"Customer country; 38 distinct values, dominated by the United Kingdom.",United Kingdom,Geographic performance and market concentration
