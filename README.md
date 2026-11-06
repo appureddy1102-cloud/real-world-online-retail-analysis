@@ -7,6 +7,7 @@ A reproducible, end-to-end data analytics project completed for **YuvaIntern Dat
 > **Author:** *[Your Name]*, Data Analytics Intern — YuvaIntern
 > **Date:** November 2026
 > **Dataset DOI:** [10.24432/C5BW33](https://doi.org/10.24432/C5BW33)
+> **Submission document (Google Docs, public link):** https://docs.google.com/document/d/1ZnkecSn0G92pgaTV7B5jI8Q99rJ6ae7vQYT2gIaMDN0/edit
 
 ---
 
@@ -342,6 +343,7 @@ real-world-online-retail-analysis/
 - **Author:** *[Your Name]* — Data Analytics Intern, YuvaIntern (Task 4)
 - **Dataset:** UCI Machine Learning Repository, Online Retail, DOI 10.24432/C5BW33, licensed CC BY 4.0
 - **Report:** `reports/Real_World_Dataset_Analysis_Report.docx`
+- **Submission document (Google Docs):** https://docs.google.com/document/d/1ZnkecSn0G92pgaTV7B5jI8Q99rJ6ae7vQYT2gIaMDN0/edit
 - **Submission description:** `SUBMISSION_DESCRIPTION.md`
 
 > Update the author name and any institutional details before submitting. The dataset licence (CC BY 4.0) permits reuse with attribution; the attribution is provided in the report references and in `data/data_source.txt`.
